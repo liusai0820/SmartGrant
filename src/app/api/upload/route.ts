@@ -6,11 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { processUploadedFile } from '@/lib/file-parser';
 import { supabaseAdmin } from '@/lib/supabase/server';
 
-export const config = {
-  api: {
-    bodyParser: false, // 禁用默认解析，使用 formData
-  },
-};
+// App Router 自动处理 formData，无需额外配置
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,10 +37,10 @@ export async function POST(request: NextRequest) {
       'text/plain',
       'text/markdown',
     ];
-    
-    if (!allowedTypes.includes(file.type) && 
-        !file.name.endsWith('.txt') && 
-        !file.name.endsWith('.md')) {
+
+    if (!allowedTypes.includes(file.type) &&
+      !file.name.endsWith('.txt') &&
+      !file.name.endsWith('.md')) {
       return NextResponse.json(
         { error: '不支持的文件格式，请上传 PDF、DOCX、TXT 或 MD 文件' },
         { status: 400 }
