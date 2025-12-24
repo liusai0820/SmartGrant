@@ -1,3 +1,12 @@
+/**
+ * @file wordExport.ts
+ * @input Markdown 格式的评审报告文本
+ * @output generateGovernmentDocument (生成 GB/T 9704-2012 公文格式 Word)
+ * @pos 文档导出层 - 将评审结论转换为符合政府公文标准的 Word 文档
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import {

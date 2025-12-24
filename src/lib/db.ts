@@ -1,3 +1,12 @@
+/**
+ * @file db.ts
+ * @input Supabase 客户端, 业务类型 (Project, Material, ReviewResult, ChatMessage)
+ * @output CRUD 函数: createProject, getProjects, saveMaterials, getMaterials, getReviewResults, loadFullProject
+ * @pos 数据持久化层 - 统一的数据库接口，支持 Supabase 和 LocalStorage 降级
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 // ===========================================
 // 数据库操作层 (Supabase)
 // ===========================================

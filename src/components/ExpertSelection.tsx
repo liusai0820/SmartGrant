@@ -1,3 +1,12 @@
+/**
+ * @file ExpertSelection.tsx
+ * @input AgentResult (专家遴选结果), FileInput[] (项目材料), projectName
+ * @output 专家遴选面板 UI，支持卡片展示与 CSV 导出
+ * @pos 核心交互组件 - 专家推荐结果的展示与管理界面
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import React, { useMemo, useCallback } from 'react';
@@ -176,16 +185,8 @@ const ExpertSelection: React.FC<ExpertSelectionProps> = ({ agent, proposals, onS
 
   return (
     <div className="h-full flex flex-col bg-slate-50/50">
-      {/* Header */}
-      <div className="px-6 py-5 flex justify-between items-center bg-background border-b border-border/40 sticky top-0 z-10">
-        <div>
-          <h2 className="text-lg font-bold text-foreground tracking-tight flex items-center gap-2">
-            <Search className="w-5 h-5 text-indigo-600" />
-            智能专家遴选
-          </h2>
-          <p className="text-muted-foreground text-xs mt-1">基于项目技术栈自动匹配国内顶尖专家</p>
-        </div>
-
+      {/* Toolbar */}
+      <div className="px-6 py-3 flex justify-end items-center bg-background/50 border-b border-border/40 sticky top-0 z-10 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           {/* CSV 导出按钮 */}
           {parsedExperts && parsedExperts.length > 0 && !isThinking && (

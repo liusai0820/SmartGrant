@@ -1,7 +1,17 @@
+/**
+ * @file ProjectSidebar.tsx
+ * @input projects[], activeProjectId, CRUD 回调函数
+ * @output 项目列表侧边栏 - tweakcn 风格设计
+ * @pos 导航组件 - 项目选择与管理入口
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import React from 'react';
-import { Plus, Trash2, FileText, Layout, Cloud, FolderOpen } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Trash2, FileText, FolderOpen, Layout, Sparkles, Settings, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ProjectItem {
@@ -17,6 +27,7 @@ interface ProjectSidebarProps {
   onSelectProject: (id: string) => void;
   onCreateProject: () => void;
   onDeleteProject: (id: string) => void;
+  onViewDashboard?: () => void;
 }
 
 const ProjectSidebar: React.FC<ProjectSidebarProps> = ({
@@ -25,83 +36,139 @@ const ProjectSidebar: React.FC<ProjectSidebarProps> = ({
   onSelectProject,
   onCreateProject,
   onDeleteProject,
+  onViewDashboard,
 }) => {
   return (
-    <div className="w-72 bg-zinc-950 text-zinc-400 flex flex-col h-full border-r border-zinc-800 flex-shrink-0 transition-all duration-300">
-      <div className="p-6">
-        <div className="flex items-center space-x-3 mb-8">
-          <div className="bg-primary/10 rounded-xl p-2.5">
-            <Layout className="h-6 w-6 text-primary" />
+    <div className="sidebar h-full flex flex-col">
+      {/* Logo & 品牌 */}
+      <div className="px-4 py-4 border-b border-sidebar-border">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-sm">
+            <Sparkles className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-zinc-100 tracking-tight leading-none">智评系统</h1>
-            <p className="text-[10px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">SmartGrant Reviewer</p>
+            <h1 className="text-base font-semibold text-sidebar-foreground leading-tight">智评系统</h1>
+            <p className="text-xs text-muted-foreground">SmartGrant</p>
           </div>
         </div>
-
-        <button
-          onClick={onCreateProject}
-          className="group w-full bg-white text-zinc-950 hover:bg-zinc-200 text-sm font-semibold py-3 px-4 rounded-xl flex items-center justify-center transition-all shadow-lg shadow-zinc-900/20 active:scale-[0.98]"
-        >
-          <Plus className="h-4 w-4 mr-2 transition-transform group-hover:rotate-90" />
-          新建评审项目
-        </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-2 space-y-1 custom-scrollbar">
-        <div className="text-xs font-semibold text-zinc-600 uppercase tracking-wider px-3 mb-3">
-          项目档案 ({projects.length})
-        </div>
+      {/* 快捷操作 */}
+      <div className="px-3 py-3">
+        <button
+          onClick={onCreateProject}
+          className="sidebar-item active w-full mb-1"
+        >
+          <Plus className="w-4 h-4" />
+          新建项目
+        </button>
 
-        {projects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-zinc-700 space-y-3">
-            <FolderOpen className="h-10 w-10 opacity-20" />
-            <span className="text-xs">暂无项目</span>
-          </div>
-        ) : (
-          projects.map((project) => (
-            <div
-              key={project.id}
-              className={cn(
-                "group relative flex items-center justify-between px-3 py-3.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent",
-                project.id === activeProjectId
-                  ? "bg-zinc-900 text-zinc-100 border-zinc-800 shadow-sm"
-                  : "hover:bg-zinc-900/50 hover:text-zinc-200 hover:border-zinc-800/50"
-              )}
-              onClick={() => onSelectProject(project.id)}
-            >
-              {project.id === activeProjectId && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
-              )}
-
-              <div className="flex-1 min-w-0 ml-1">
-                <div className="flex items-center space-x-2">
-                  <FileText className={cn("h-4 w-4 shrink-0", project.id === activeProjectId ? "text-primary" : "text-zinc-600 group-hover:text-zinc-500")} />
-                  <h3 className="text-sm font-medium truncate">{project.name}</h3>
-                </div>
-                <p className="text-[10px] text-zinc-600 mt-1 pl-6">
-                  {new Date(project.updatedAt).toLocaleDateString()}
-                </p>
-              </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (confirm('确定要删除这个项目档案吗？')) onDeleteProject(project.id);
-                }}
-                className="opacity-0 group-hover:opacity-100 p-2 hover:bg-red-500/10 hover:text-red-400 rounded-lg text-zinc-600 transition-all"
-                title="删除项目"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-            </div>
-          ))
+        {onViewDashboard && (
+          <button
+            onClick={onViewDashboard}
+            className="sidebar-item w-full"
+          >
+            <Layout className="w-4 h-4" />
+            项目看板
+          </button>
         )}
       </div>
 
-      <div className="p-6 border-t border-zinc-900">
-        <div className="flex items-center space-x-2 text-xs text-zinc-600 bg-zinc-900/50 py-2 px-3 rounded-lg border border-zinc-900">
-          <Cloud className="h-3 w-3" />
-          <span>数据已云端同步</span>
+      {/* 分隔线 + 标签 */}
+      <div className="px-4 py-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            项目列表
+          </span>
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+            {projects.length}
+          </span>
+        </div>
+      </div>
+
+      {/* 项目列表 */}
+      <div className="flex-1 overflow-y-auto px-3 custom-scrollbar">
+        <AnimatePresence mode="popLayout">
+          {projects.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-center justify-center py-12 text-muted-foreground"
+            >
+              <FolderOpen className="w-10 h-10 opacity-30 mb-3" />
+              <span className="text-sm">暂无项目</span>
+            </motion.div>
+          ) : (
+            <div className="space-y-1">
+              {projects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={cn(
+                    "group relative flex items-center gap-3",
+                    "px-3 py-2.5 rounded-lg cursor-pointer",
+                    "transition-all duration-150",
+                    project.id === activeProjectId
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "hover:bg-sidebar-accent/50 text-sidebar-foreground"
+                  )}
+                  onClick={() => onSelectProject(project.id)}
+                >
+                  <FileText className={cn(
+                    "w-4 h-4 shrink-0",
+                    project.id === activeProjectId
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  )} />
+
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{project.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {new Date(project.updatedAt).toLocaleDateString('zh-CN', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 删除按钮 */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm('确定要删除这个项目吗？')) {
+                        onDeleteProject(project.id);
+                      }
+                    }}
+                    className={cn(
+                      "opacity-0 group-hover:opacity-100",
+                      "p-1.5 rounded-md",
+                      "text-muted-foreground hover:text-destructive",
+                      "hover:bg-destructive/10",
+                      "transition-all"
+                    )}
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* 底部菜单 */}
+      <div className="px-3 py-3 border-t border-sidebar-border">
+        <div className="space-y-1">
+          <button className="sidebar-item w-full">
+            <Settings className="w-4 h-4" />
+            设置
+          </button>
+          <button className="sidebar-item w-full">
+            <HelpCircle className="w-4 h-4" />
+            帮助
+          </button>
         </div>
       </div>
     </div>

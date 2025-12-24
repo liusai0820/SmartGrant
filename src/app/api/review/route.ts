@@ -1,3 +1,12 @@
+/**
+ * @file route.ts (review)
+ * @input FileInput[] (materials, guidelines), projectId
+ * @output JSON: { reviews, finalReport } - 多 Agent 评审结果与综合报告
+ * @pos API 层 - 核心评审接口，调度多模型并行评审
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 // ===========================================
 // 评审 API Route (Server-side)
 // ===========================================

@@ -1,3 +1,12 @@
+/**
+ * @file FinalReport.tsx
+ * @input AgentResult (首席评审官结果), projectName
+ * @output 综合决议报告 UI，支持 Markdown/Word 公文导出
+ * @pos 核心交互组件 - 最终评审结论的展示与导出界面
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import React, { useState } from 'react';

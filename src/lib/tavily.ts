@@ -1,3 +1,12 @@
+/**
+ * @file tavily.ts
+ * @input TAVILY_API_KEY, 项目材料文本内容
+ * @output searchExperts (专家搜索), extractKeywordsWithAI (关键词提取), TavilySearchResult 类型
+ * @pos 外部搜索层 - 连接 Tavily 搜索引擎，为专家遴选提供数据支撑
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 // ===========================================
 // Tavily 搜索 API 封装
 // ===========================================

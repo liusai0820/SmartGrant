@@ -1,3 +1,12 @@
+/**
+ * @file client.ts
+ * @input 环境变量 NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
+ * @output supabase (浏览器端客户端), isSupabaseConfigured (配置状态)
+ * @pos 客户端层 - 提供浏览器端 Supabase 实例
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 import { createBrowserClient } from '@supabase/ssr';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';

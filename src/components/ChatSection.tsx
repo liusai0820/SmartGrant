@@ -1,3 +1,12 @@
+/**
+ * @file ChatSection.tsx
+ * @input ChatMessage[], FileInput[] (材料与指南), projectId
+ * @output AI 对话界面组件，支持基于项目上下文的智能问答
+ * @pos 辅助交互组件 - 提供评审后的深度咨询能力
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';

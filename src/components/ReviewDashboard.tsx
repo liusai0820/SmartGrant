@@ -1,3 +1,12 @@
+/**
+ * @file ReviewDashboard.tsx
+ * @input AgentResult 记录 (来自 page.tsx 父组件)
+ * @output 评审面板 UI 组件，展示多 Agent 评审进度与 Markdown 内容
+ * @pos 核心交互组件 - 评审结果的主要展示界面
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 'use client';
 
 import React, { useState } from 'react';

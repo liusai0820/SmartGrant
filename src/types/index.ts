@@ -1,3 +1,12 @@
+/**
+ * @file index.ts
+ * @input 无外部依赖（纯类型定义）
+ * @output 核心业务类型: AgentType, AgentStatus, FileInput, Project, ReviewResult, ChatMessage, INITIAL_AGENTS_STATE
+ * @pos 类型基础层 - 定义系统所有核心数据结构，被所有模块依赖
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 // ===========================================
 // 核心类型定义
 // ===========================================

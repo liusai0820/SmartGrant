@@ -1,3 +1,12 @@
+/**
+ * @file Navbar.tsx
+ * @input projectName, updatedAt, onUpdateName 回调
+ * @output 顶部导航栏组件，包含项目名编辑、主题切换、状态指示
+ * @pos 布局组件 - 应用顶部固定导航栏
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 import React, { useEffect, useState } from 'react';
 import { Bot, Clock, Sun, Moon, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';

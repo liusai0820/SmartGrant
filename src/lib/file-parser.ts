@@ -1,3 +1,12 @@
+/**
+ * @file file-parser.ts
+ * @input Buffer (文件二进制), fileName, mimeType, Cloudflare R2 配置
+ * @output parseFile (解析文本), uploadToR2 (存储), processUploadedFile (完整流程)
+ * @pos 文件处理层 - 负责 PDF/DOCX/TXT 解析与云存储，是数据输入的第一道门
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+
 // ===========================================
 // 文件解析服务 (PDF/DOCX/TXT)
 // ===========================================
@@ -34,7 +43,7 @@ export async function uploadToR2(
   projectId: string
 ): Promise<{ key: string; url: string }> {
   const key = `projects/${projectId}/${Date.now()}-${fileName}`;
-  
+
   await r2Client.send(new PutObjectCommand({
     Bucket: R2_BUCKET,
     Key: key,
@@ -43,7 +52,7 @@ export async function uploadToR2(
   }));
 
   const url = `${process.env.R2_PUBLIC_URL}/${key}`;
-  
+
   return { key, url };
 }
 
@@ -55,13 +64,13 @@ export async function downloadFromR2(key: string): Promise<Buffer> {
     Bucket: R2_BUCKET,
     Key: key,
   }));
-  
+
   const chunks: Uint8Array[] = [];
   // @ts-ignore - Body is a readable stream
   for await (const chunk of response.Body) {
     chunks.push(chunk);
   }
-  
+
   return Buffer.concat(chunks);
 }
 
@@ -109,7 +118,7 @@ export async function parseFile(
   if (mimeType === 'application/pdf' || fileName.endsWith('.pdf')) {
     return parsePDF(buffer);
   }
-  
+
   // DOCX
   if (
     mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
@@ -117,12 +126,12 @@ export async function parseFile(
   ) {
     return parseDOCX(buffer);
   }
-  
+
   // DOC (旧版 Word) - 建议用户转换为 DOCX
   if (mimeType === 'application/msword' || fileName.endsWith('.doc')) {
     throw new Error('暂不支持 .doc 格式，请将文件另存为 .docx 格式后重新上传');
   }
-  
+
   // 纯文本 (TXT/MD)
   if (
     mimeType.startsWith('text/') ||
@@ -131,7 +140,7 @@ export async function parseFile(
   ) {
     return buffer.toString('utf-8');
   }
-  
+
   throw new Error(`不支持的文件格式: ${mimeType}`);
 }
 
@@ -150,11 +159,11 @@ export async function processUploadedFile(
 ): Promise<ParsedFile> {
   // 1. 解析文件内容
   const textContent = await parseFile(fileBuffer, fileName, mimeType);
-  
+
   // 2. 上传原始文件到 R2 (可选，用于备份和下载)
   let r2Key: string | undefined;
   let r2Url: string | undefined;
-  
+
   try {
     const uploadResult = await uploadToR2(fileBuffer, fileName, mimeType, projectId);
     r2Key = uploadResult.key;
@@ -163,7 +172,7 @@ export async function processUploadedFile(
     console.warn('R2 上传失败，继续处理:', error);
     // R2 上传失败不影响主流程
   }
-  
+
   return {
     fileName,
     mimeType,

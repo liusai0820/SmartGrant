@@ -4,6 +4,57 @@
   <strong>基于多 AI Agent 协同的科研项目智能评审平台</strong>
 </p>
 
+---
+
+## 🔄 文档自指规则（必读）
+
+> *"局部影响整体，整体影响局部。" —— 《哥德尔、埃舍尔、巴赫》*
+
+本项目采用**分形文档结构**，实现代码与文档的自蔓延同步：
+
+### ⚠️ 任何功能、架构、写法更新后，必须执行以下操作：
+
+1. **更新所属文件夹的 `_ARCHITECTURE.md`**
+   - 每个目录都有一个架构说明文件
+   - 添加/删除/修改文件后，更新该目录的文件清单
+
+2. **更新文件开头的三行注释**
+   - 每个代码文件开头都有 `@input`、`@output`、`@pos` 注释
+   - 修改依赖或导出时，同步更新这些注释
+
+3. **自下而上传播更新**
+   - 子目录变化 → 更新父目录的 `_ARCHITECTURE.md`
+   - 核心模块变化 → 检查 README.md 是否需要更新
+
+### 🔗 文档结构
+
+```
+README.md (本文件 - 项目总览)
+├── src/_ARCHITECTURE.md
+│   ├── src/app/_ARCHITECTURE.md
+│   │   └── src/app/api/_ARCHITECTURE.md
+│   ├── src/components/_ARCHITECTURE.md
+│   ├── src/lib/_ARCHITECTURE.md
+│   │   └── src/lib/supabase/_ARCHITECTURE.md
+│   ├── src/types/_ARCHITECTURE.md
+│   └── src/data/_ARCHITECTURE.md
+```
+
+### 📝 代码文件注释规范
+
+```typescript
+/**
+ * @file 文件名
+ * @input 依赖外部的什么（如：Material 类型、Supabase 客户端）
+ * @output 对外提供什么（如：解析后的文本内容、ReviewResult 类型）
+ * @pos 在系统局部的地位（如：文件解析服务层）
+ * 
+ * ⚠️ 更新声明：一旦我被更新，务必更新我的开头注释，以及所属文件夹的 _ARCHITECTURE.md
+ */
+```
+
+---
+
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js" alt="Next.js 14" />
   <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript" alt="TypeScript" />
